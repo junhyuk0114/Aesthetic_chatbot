@@ -1,0 +1,36 @@
+# 환경변수 (절대 커밋 금지)
+.env
+
+# Python 가상환경 & 캐시
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Maven 빌드 산출물
+target/
+
+# IDE 설정
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+.settings/
+
+# 임시 작업 파일
+Temp/
+
+# API 응답 원본 데이터 (용량 이슈)
+data/raw/
+
+# 로그
+*.log
+
+# Spring DB 접속 정보 (datasource.properties.example 참고)
+SPRING/src/main/resources/config/datasource.properties
+
+# OS
+.DS_Store
+Thumbs.db
