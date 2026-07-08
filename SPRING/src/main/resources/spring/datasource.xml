@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="
+           http://mybatis.org/schema/mybatis-spring
+           http://mybatis.org/schema/mybatis-spring-1.2.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- properties 파일 읽기 -->
+    <context:property-placeholder location="classpath:config/datasource.properties"/>
+
+    <!-- HikariCP DataSource -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.driverClass}"/>
+        <property name="jdbcUrl"         value="${db.url}"/>
+        <property name="username"        value="${db.username}"/>
+        <property name="password"        value="${db.password}"/>
+        <property name="maximumPoolSize" value="10"/>
+        <property name="minimumIdle"     value="2"/>
+        <property name="poolName"        value="MazelHikariPool"/>
+    </bean>
+
+    <!-- MyBatis SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource"         ref="dataSource"/>
+        <property name="configLocation"     value="classpath:config/SqlMapConfig.xml"/>
+        <property name="mapperLocations"    value="classpath:mappers/**/*.xml"/>
+        <property name="typeAliasesPackage" value="com.mazel.esthetic.dto"/>
+    </bean>
+
+    <!-- SqlSessionTemplate -->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- Mapper 인터페이스 스캔 -->
+    <mybatis-spring:scan base-package="com.mazel.esthetic.mapper"/>
+
+</beans>

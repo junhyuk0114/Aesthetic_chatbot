@@ -1,0 +1,12 @@
+# PostgreSQL 드라이버
+db.driverClass=org.postgresql.Driver
+
+# DB URL
+db.url=jdbc:postgresql://localhost:5432/mazel_esthetic_db?characterEncoding=UTF-8
+
+# 계정 정보 (실제 값으로 교체)
+db.username=mazel_user
+db.password=your_password_here
+
+# FastAPI RAG 서버 URL
+rag.server.url=http://localhost:5000
