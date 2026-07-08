@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mazel.esthetic.mapper.CollectionLogMapper">
+
+    <resultMap id="CollectionLogResultMap" type="com.mazel.esthetic.dto.CollectionLogDto">
+        <id     property="id"           column="id"/>
+        <result property="source"       column="source"/>
+        <result property="startedAt"    column="started_at"/>
+        <result property="finishedAt"   column="finished_at"/>
+        <result property="totalFetched" column="total_fetched"/>
+        <result property="totalIndexed" column="total_indexed"/>
+        <result property="status"       column="status"/>
+        <result property="errorMessage" column="error_message"/>
+        <result property="note"         column="note"/>
+    </resultMap>
+
+    <select id="selectRecentLogs" resultMap="CollectionLogResultMap">
+        SELECT id, source, started_at, finished_at, total_fetched,
+               total_indexed, status, error_message, note
+        FROM collection_log
+        ORDER BY started_at DESC
+        LIMIT #{limit}
+    </select>
+
+    <select id="selectLatestByType" resultMap="CollectionLogResultMap">
+        SELECT id, source, started_at, finished_at, total_fetched,
+               total_indexed, status, error_message, note
+        FROM collection_log
+        WHERE source = #{sourceName}
+        ORDER BY started_at DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insertLog" parameterType="com.mazel.esthetic.dto.CollectionLogDto">
+        INSERT INTO collection_log
+            (source, total_fetched, total_indexed, status, error_message, note)
+        VALUES
+            (#{source}, #{totalFetched}, #{totalIndexed}, #{status}, #{errorMessage}, #{note})
+    </insert>
+
+</mapper>
